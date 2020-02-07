@@ -5,13 +5,13 @@ example:
 
 xbai@mac-xbai:~/Desktop/MacInstaller$ prlctl list -a
 
-UUID                                    STATUS       IP_ADDR         NAME
+   UUID                                    STATUS       IP_ADDR         NAME
 
-{168c789e-caa6-4b83-bb84-a1f18c26e1f3}  stopped      -               Clone_2 of VM macOS Mojave
+   {168c789e-caa6-4b83-bb84-a1f18c26e1f3}  stopped      -               Clone_2 of VM macOS Mojave
 
-{edbe0c40-83dc-4505-8941-bac038897648}  stopped      -               VM macOS Mojave
+   {edbe0c40-83dc-4505-8941-bac038897648}  stopped      -               VM macOS Mojave
 
-{14c73b9b-c677-4647-9fe8-ad71f2b23b53}  paused       -               macOS Catalina
+   {14c73b9b-c677-4647-9fe8-ad71f2b23b53}  paused       -               macOS Catalina
 
 
 
