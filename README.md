@@ -19,14 +19,17 @@ This command is choosing one guest os and install all the dmg packages from the 
 
 xbai@mac-xbai:~/Desktop/MacInstaller$ prlctl exec {14c73b9b-c677-4647-9fe8-ad71f2b23b53} /Volumes/SharedFolders/ShareTest/installpkg.py
 
+Before running the script make sure install the parallels tools
+
 the steps are 
 1. put dmg files and script in the share folder, make sure you could see that in the guest os. 
 
 2. In the guest os enable the prltoolsd
           
-      System Prefrences -> Security & Privacy -> Full Disk Access 
+      System Prefrences -> Security & Privacy -> File Disk Access -> prltoolsd 
       
 3. Check the share forlder path from guest os then run the script
 
 
-   
+
+
