@@ -75,6 +75,20 @@ class InstallPKG(object):
 			command = install_command + pkg + target
 			os.system(command)
 
+    def codesign(self):
+        application_path = "/Applications/"
+        app_list = []
+        dir_list = os.listdir(application_path)
+        for item in dir_list:
+            if "tableau" in item.lower():
+                item = item.replace(" ", "\\ ").replace("(", "\(").replace(")", "\)")
+                dir_path = os.path.join(application_path, item)
+                print("codesign ", dir_path)
+                command = "codesign -vv " + dir_path
+                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+                (out, err) = proc.communicate()
+                print("codesign res ", out, err)
+
 if __name__ == "__main__":
 	installpkg = InstallPKG()
 	
