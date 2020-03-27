@@ -19,7 +19,8 @@ This command is choosing one guest os and install all the dmg packages from the 
 
 xbai@mac-xbai:~/Desktop/MacInstaller$ prlctl exec {14c73b9b-c677-4647-9fe8-ad71f2b23b53} /Volumes/SharedFolders/ShareTest/installpkg.py
 
-Before running the script make sure install the parallels tools
+Before running the script make sure to  install parallels tools.  
+Also note that, as in the above example, the path to the script needs to be the path that where the guest OS would see it.
 
 the steps are 
 1. put dmg files and script in the share folder, make sure you could see that in the guest os. 
@@ -30,6 +31,22 @@ the steps are
       
 3. Check the share forlder path from guest os then run the script
 
+______________________________________________________________________________________
+# Usage for vm auto update 
 
+1. you will need update the vmlist file with your vm template uuid
 
+2. add following command into you crontab 
+    
+      
+>  crontab -e
 
+      eg. runs every day 2AM
+
+      
+>  \* 2 * * * /usr/local/bin/python3 /Users/xbai/Desktop/environment-deployment/MacInstaller/autoVmUpdate.py
+
+3. install prlsdkapi library. 
+   [sdk](https://www.parallels.com/download/pvsdk/)
+
+4. daily update log will save to vmUpdateLog. 

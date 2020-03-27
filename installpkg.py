@@ -24,13 +24,18 @@ class InstallPKG(object):
 		if os.path.isdir(self.share_folder_path):
 			file_list = os.listdir(self.share_folder_path)
 			for item in file_list:
-				if ".dmg" in item:
+				if ".dmg" in item.lower():
 					if self.argu_list:
 						for argu in self.argu_list:
 							if argu.lower() in item.lower():
 								self.dmg_list.append(os.path.join(self.share_folder_path, item))
 					else:
 						self.dmg_list.append(os.path.join(self.share_folder_path, item))
+				if ".pkg" in item.lower():
+					if "vertica" in item.lower():
+						self.vertica_path = os.path.join(self.share_folder_path, item)
+						print("vertica path : ", self.vertica_path)
+						self.vertica_path = self.vertica_path.replace(" ", "\\ ").replace("(", "\(").replace(")", "\)")
 	
 	def attach_dmg(self):
 		attach_command = 'hdiutil attach '
@@ -70,24 +75,41 @@ class InstallPKG(object):
 		install_command = "installer -pkg "
 		target = " -target /"
 		for pkg in self.pkg_list:
+			if "vertica" in pkg.lower():
+				self.vertica()
+				continue
+
 			print("Installing pkg :", pkg)
 			pkg = pkg.replace(" ", "\\ ").replace("(", "\(").replace(")", "\)")
 			command = install_command + pkg + target
 			os.system(command)
 
-    def codesign(self):
-        application_path = "/Applications/"
-        app_list = []
-        dir_list = os.listdir(application_path)
-        for item in dir_list:
-            if "tableau" in item.lower():
-                item = item.replace(" ", "\\ ").replace("(", "\(").replace(")", "\)")
-                dir_path = os.path.join(application_path, item)
-                print("codesign ", dir_path)
-                command = "codesign -vv " + dir_path
-                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-                (out, err) = proc.communicate()
-                print("codesign res ", out, err)
+	def vertica(self):
+		print("find vertica-----------")
+		if not os.path.exists("/Library/ODBC/Vertica"):
+			cmd = "mkdir -p /Library/ODBC/Vertica"
+			proc = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, shell=True)
+			(out, err) = proc.communicate()
+		print("-------prepare for copy")
+		cmd = ["/bin/cp", self.vertica_path, "/Library/ODBC/Vertica/"]
+		cmd = "cp /Volumes/SharedFolders/ShareTest/vertica-odbc-7.1.2-0.mac.pkg /Library/ODBC/Vertica"
+		print("------copy command :", cmd)
+		proc = subprocess.call(cmd, stdout=subprocess.PIPE, shell=True)
+		print("------cp vertica to /Library/ODBC/Vertica/")
+	
+#    def codesign(self):
+#        application_path = "/Applications/"
+#        app_list = []
+#        dir_list = os.listdir(application_path)
+#        for item in dir_list:
+#            if "tableau" in item.lower():
+#                item = item.replace(" ", "\\ ").replace("(", "\(").replace(")", "\)")
+#                dir_path = os.path.join(application_path, item)
+#                print("codesign ", dir_path)
+#                command = "codesign -vv " + dir_path
+#                proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
+#                (out, err) = proc.communicate()
+#                print("codesign res ", out, err)
 
 if __name__ == "__main__":
 	installpkg = InstallPKG()
